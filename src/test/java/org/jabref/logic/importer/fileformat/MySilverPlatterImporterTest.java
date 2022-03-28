@@ -25,15 +25,36 @@ public class MySilverPlatterImporterTest {
     }
 
     @Test
-    public void test1() throws IOException {
-        String str = "Record stuff INSPEC\n";
+    public void lineHasStartPattern() throws IOException {
+        String str = "Record..stuff..INSPEC\n";
 
         assertFalse(sut.isRecognizedFormat(strToBufferedReader(str)));
     }
 
     @Test
-    public void test2() throws IOException {
-        String str = "TI:       \n";
+    public void lineDoesNotHaveStartPattern() throws IOException {
+        String str = "UT INSPEC:777777\n";
+
+        assertFalse(sut.isRecognizedFormat(strToBufferedReader(str)));
+    }
+    
+    @Test
+    public void lineHasLessThan5CharactersAndDoesNotEqualStartingString() throws IOException {
+        String str = "...\n";
+
+        assertFalse(sut.isRecognizedFormat(strToBufferedReader(str)));
+    }
+
+    @Test
+    public void lineHasMoreThan4CharactersAndDoesNotEqualStartingString() throws IOException {
+        String str = "FA:  \n";
+
+        assertFalse(sut.isRecognizedFormat(strToBufferedReader(str)));
+    }
+
+    @Test
+    public void lineHasMoreThan4CharactersAndEqualStartingString() throws IOException {
+        String str = "TI:  \n";
 
         assertTrue(sut.isRecognizedFormat(strToBufferedReader(str)));
     }
