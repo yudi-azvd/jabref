@@ -4,7 +4,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.jabref.logic.importer.FetcherException;
@@ -14,6 +16,7 @@ import org.jabref.logic.importer.SearchBasedParserFetcher;
 import org.jabref.logic.importer.fetcher.transformers.DefaultQueryTransformer;
 import org.jabref.logic.util.BuildInfo;
 import org.jabref.model.entry.BibEntry;
+import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.StandardField;
 
 import kong.unirest.json.JSONArray;
@@ -39,13 +42,16 @@ public class BHLFetcher implements SearchBasedParserFetcher {
 
     public static BibEntry parseBHLJSONToBibtex(JSONObject jsonObject) {
         BibEntry bibEntry = new BibEntry();
+        Map<Field, String> fieldToBHL = new HashMap<>();
+        fieldToBHL.put(StandardField.DATE, "Date");
+        fieldToBHL.put(StandardField.VOLUME, "Volume");
+        fieldToBHL.put(StandardField.TITLE, "Title");
+        fieldToBHL.put(StandardField.SERIES, "Series");
+        fieldToBHL.put(StandardField.URL, "PartUrl");
 
         if (jsonObject.has("Result")) {
             JSONArray results = jsonObject.getJSONArray("Result");
             for (int i = 0; i < results.length(); i++) {
-                if (results.getJSONObject(i).has("Date")) {
-                    bibEntry.setField(StandardField.DATE, results.getJSONObject(i).getString("Date"));
-                }
                 if (results.getJSONObject(i).has("Authors")) {
                     JSONArray authors = results.getJSONObject(i).getJSONArray("Authors");
                     List<String> authorsList = new ArrayList<>();
@@ -60,17 +66,15 @@ public class BHLFetcher implements SearchBasedParserFetcher {
                 } else {
                     LOGGER.info("No author found.");
                 }
-                if (results.getJSONObject(i).has("Title")) {
-                    bibEntry.setField(StandardField.TITLE, results.getJSONObject(i).getString("Title"));
-                }
-                if (results.getJSONObject(i).has("PartUrl")) {
-                    bibEntry.setField(StandardField.URL, results.getJSONObject(i).getString("PartUrl"));
-                }
-                if (results.getJSONObject(i).has("Series")) {
-                    bibEntry.setField(StandardField.SERIES, results.getJSONObject(i).getString("Series"));
-                }
-                if (results.getJSONObject(i).has("Volume")) {
-                    bibEntry.setField(StandardField.VOLUME, results.getJSONObject(i).getString("Volume"));
+                for (var entry : fieldToBHL.entrySet()) {
+                    Field field = entry.getKey();
+                    String bhlName = entry.getValue();
+                    if (results.getJSONObject(i).has(bhlName)) {
+                        String text = results.getJSONObject(i).getString(bhlName);
+                        if (!text.isEmpty()) {
+                            bibEntry.setField(field, text);
+                        }
+                    }
                 }
             }
         }
