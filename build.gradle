@@ -1,4 +1,3 @@
-import groovy.json.JsonSlurper
 import org.gradle.internal.os.OperatingSystem
 import org.jabref.build.JournalAbbreviationConverter
 import org.jabref.build.xjc.XjcPlugin
@@ -245,7 +244,8 @@ processResources {
                 "springerNatureAPIKey": System.getenv('SpringerNatureAPIKey') ? System.getenv('SpringerNatureAPIKey') : '',
                 "astrophysicsDataSystemAPIKey": System.getenv('AstrophysicsDataSystemAPIKey') ? System.getenv('AstrophysicsDataSystemAPIKey') : '',
                 "ieeeAPIKey": System.getenv('IEEEAPIKey') ? System.getenv('IEEEAPIKey') : '',
-                "scienceDirectApiKey": System.getenv('SCIENCEDIRECTAPIKEY') ? System.getenv('SCIENCEDIRECTAPIKEY') : ''
+                "scienceDirectApiKey": System.getenv('SCIENCEDIRECTAPIKEY') ? System.getenv('SCIENCEDIRECTAPIKEY') : '',
+                "bhlAPIKey": System.getenv('bhlAPIKey') ? System.getenv('bhlAPIKey') : ''
         )
         filteringCharset = 'UTF-8'
     }

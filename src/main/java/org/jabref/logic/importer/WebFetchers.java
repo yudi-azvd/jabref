@@ -13,6 +13,7 @@ import org.jabref.logic.importer.fetcher.ACS;
 import org.jabref.logic.importer.fetcher.ApsFetcher;
 import org.jabref.logic.importer.fetcher.ArXiv;
 import org.jabref.logic.importer.fetcher.AstrophysicsDataSystem;
+import org.jabref.logic.importer.fetcher.BHLFetcher;
 import org.jabref.logic.importer.fetcher.CiteSeer;
 import org.jabref.logic.importer.fetcher.CollectionOfComputerScienceBibliographiesFetcher;
 import org.jabref.logic.importer.fetcher.CompositeSearchBasedFetcher;
@@ -107,6 +108,7 @@ public class WebFetchers {
         set.add(new IEEE(importFormatPreferences));
         set.add(new CompositeSearchBasedFetcher(set, 30));
         set.add(new CollectionOfComputerScienceBibliographiesFetcher(importFormatPreferences));
+        set.add(new BHLFetcher(importFormatPreferences));
         // set.add(new JstorFetcher(importFormatPreferences));
         return set;
     }

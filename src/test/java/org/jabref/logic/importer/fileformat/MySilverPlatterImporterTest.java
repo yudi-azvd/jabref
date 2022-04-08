@@ -37,7 +37,7 @@ public class MySilverPlatterImporterTest {
 
         assertFalse(sut.isRecognizedFormat(strToBufferedReader(str)));
     }
-    
+
     @Test
     public void lineHasLessThan5CharactersAndDoesNotEqualStartingString() throws IOException {
         String str = "...\n";

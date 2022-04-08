@@ -275,6 +275,8 @@ public class AstrophysicsDataSystem implements IdBasedParserFetcher, PagedSearch
     @Override
     public List<BibEntry> performSearch(QueryNode luceneQuery) throws FetcherException {
         URL urlForQuery;
+        System.out.println(">>> lucene query " + luceneQuery);
+        System.out.println(">>> API key " + API_KEY);
         try {
             urlForQuery = getURLForQuery(luceneQuery);
         } catch (URISyntaxException e) {
