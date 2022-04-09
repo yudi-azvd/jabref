@@ -47,6 +47,9 @@ gradle.properties
 *.ipr
 *.iml
 
+
+.vscode/*
+
 # UNKNWON
 jabref.xml
 *.sonargraph

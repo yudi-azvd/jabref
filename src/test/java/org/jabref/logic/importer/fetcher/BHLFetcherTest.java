@@ -71,9 +71,8 @@ public class BHLFetcherTest {
                    ]
                 }
                 """;
-
         JSONObject jsonObject = new kong.unirest.json.JSONObject(jsonString);
-        BibEntry bibEntry = BHLFetcher.parseBHLJSONToBibtex(jsonObject);
+        BibEntry bibEntry = BHLFetcher.parseBHLJSONToBibtex(jsonObject.getJSONArray("Result").getJSONObject(0));
         assertEquals(Optional.of("1919"), bibEntry.getField(StandardField.DATE));
         assertEquals(Optional.of("Gifford, Edward Winslow,"), bibEntry.getField(StandardField.AUTHOR));
         assertEquals(Optional.of("Field notes on the land birds of the Galapagos Islands, and of Cocos Island,Costa Rica"), bibEntry.getField(StandardField.TITLE));
